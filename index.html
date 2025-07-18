@@ -28,69 +28,53 @@
             height: 100%;
             object-fit: cover;
         }
-        h1 {
-            font-size: 2.5rem;
-            margin-top: 20%;
-            text-shadow: 0 0 10px #fff;
-        }
-        .hidden-btn {
-            opacity: 0;
+        #startButton {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
-            padding: 5px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            font-size: 20px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div id="video-container">
-        <video autoplay loop muted id="scaryVideo">
-            <source src="https://cdn.discordapp.com/attachments/832734068319715379/1395829931333914764/myVideo.mp4?ex=687bdf6c&is=687a8dec&hm=f9c7590decc3bacd2fa77d27b6e4c71d0e54c107ca6b8da97ac3ab3a38f9ba0c" type="video/mp4">
-            <!-- إذا لم يعمل الرابط، جرب رفع الفيديو على استضافة أخرى -->
+        <video id="scaryVideo" loop>
+            <source src="https://cdn.discordapp.com/attachments/832734068319715379/1395829931333914764/myVideo.mp4" type="video/mp4">
         </video>
+        <button id="startButton">اضغط لبدء الفحص</button>
     </div>
 
-    <h1>⚠️ خطأ: تم اكتشاف فيروس في جهازك!</h1>
-    <p>لا تحاول إغلاق هذه الصفحة!</p>
-
-    <button class="hidden-btn" id="exitBtn">اضغط هنا للخروج</button>
-
     <script>
-        // تشغيل الفيديو تلقائياً (حتى لو كان muted)
-        document.getElementById('scaryVideo').play().catch(e => {
-            console.log("تعذر تشغيل الفيديو تلقائياً:", e);
-        });
+        const video = document.getElementById('scaryVideo');
+        const startButton = document.getElementById('startButton');
+        
+        // عند النقر على الزر (التفاعل المطلوب)
+        startButton.onclick = function() {
+            startButton.style.display = 'none';
+            video.muted = false; // تفعيل الصوت
+            video.play().catch(e => alert("حدث خطأ: " + e));
+            
+            // تشغيل صوت إضافي مزعج
+            const scarySound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-horror-scream-2886.mp3');
+            scarySound.play();
+        };
 
-        // منع الإغلاق أو التبويب
+        // منع الإغلاق
         window.onbeforeunload = function() {
-            return "⚠️ تحذير: قد يتضرر جهازك إذا غادرت!";
+            return "⚠️ تحذير: النظام غير مستقر!";
         };
 
-        // منع النقر بزر الماوس الأيمن
+        // منع النقر الأيمن وF12
         document.addEventListener('contextmenu', e => e.preventDefault());
-
-        // منع اختيار النص أو الضغط على F12
         document.onkeydown = function(e) {
-            if (e.key === "F12" || e.ctrlKey || e.key === "Escape") {
-                e.preventDefault();
-                if (e.key === "Escape") {
-                    escapeCount++;
-                    if (escapeCount >= 5) {
-                        document.getElementById('exitBtn').style.opacity = "1";
-                    }
-                }
-            }
-        };
-
-        // منع التكبير/التصغير على الهاتف
-        document.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-        }, { passive: false });
-
-        let escapeCount = 0;
-        document.getElementById('exitBtn').onclick = function() {
-            window.onbeforeunload = null;
-            window.close();
+            if (e.key === "F12" || e.ctrlKey) e.preventDefault();
         };
     </script>
 </body>
