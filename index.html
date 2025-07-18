@@ -1,25 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>فيديو يعمل دائمًا</title>
+    <title>مفاجأة ساحرة! 🎁</title>
     <style>
-        #fallback { display: none; color: red; }
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+        }
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
-    <video id="myVideo" controls width="100%">
-        <source src="videos/myvideo.mp4" type="video/mp4">
-        <source src="videos/myvideo.webm" type="video/webm">
-        <p id="fallback">المتصفح لا يدعم الفيديو. <a href="videos/myvideo.mp4">انقر لتحميله</a></p>
-    </video>
+    <div id="video-container">
+        <video id="myVideo" autoplay loop muted>
+            <source src="videos/scary-video.mp4" type="video/mp4">
+        </video>
+    </div>
 
     <script>
-        const video = document.getElementById('myVideo');
-        const fallback = document.getElementById('fallback');
-        
-        video.play().catch(error => {
-            fallback.style.display = 'block';
-            console.error("فشل التشغيل:", error);
+        // كود جافاسكريبت لرفع الصوت وإزالة التحكمات
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('myVideo');
+            
+            // إزالة خاصية muted بعد بدء التشغيل (لرفع الصوت)
+            setTimeout(() => {
+                video.muted = false;
+                video.volume = 1.0; // أقصى صوت (1.0 = 100%)
+            }, 1000);
+            
+            // منع إيقاف الفيديو أو إغلاقه
+            video.addEventListener('pause', (e) => {
+                e.preventDefault();
+                video.play();
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Space' || e.key === 'Escape') {
+                    e.preventDefault();
+                }
+            });
         });
     </script>
 </body>
