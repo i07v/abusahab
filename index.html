@@ -1,58 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>مفاجأة ساحرة! 🎁</title>
+    <title>فيديو سحري</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background: black;
-        }
-        #video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
+        body { margin: 0; overflow: hidden; }
+        video { 
             width: 100vw;
             height: 100vh;
-            z-index: 9999;
-        }
-        video {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
         }
     </style>
 </head>
 <body>
-    <div id="video-container">
-        <video id="myVideo" autoplay loop muted>
-            <source src="videos/scary-video.mp4" type="video/mp4">
-        </video>
-    </div>
+    <video id="myVideo" autoplay loop muted playsinline>
+        <source src="video.mp4" type="video/mp4">
+    </video>
 
     <script>
-        // كود جافاسكريبت لرفع الصوت وإزالة التحكمات
-        document.addEventListener('DOMContentLoaded', function() {
+        // خدعة لتفعيل الصوت بعد ثانيتين
+        setTimeout(() => {
             const video = document.getElementById('myVideo');
-            
-            // إزالة خاصية muted بعد بدء التشغيل (لرفع الصوت)
-            setTimeout(() => {
-                video.muted = false;
-                video.volume = 1.0; // أقصى صوت (1.0 = 100%)
-            }, 1000);
-            
-            // منع إيقاف الفيديو أو إغلاقه
-            video.addEventListener('pause', (e) => {
-                e.preventDefault();
-                video.play();
-            });
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Space' || e.key === 'Escape') {
-                    e.preventDefault();
-                }
-            });
-        });
+            video.muted = false;
+            video.volume = 1.0;
+        }, 2000);
     </script>
 </body>
 </html>
