@@ -1,10 +1,5 @@
-// يحاول إجبار التشغيل حتى مع مقاومة المتصفح
-document.addEventListener('click', () => {
-    const video = document.getElementById('myVideo');
-    video.play().then(() => {
-        video.muted = false;
-        video.volume = 1.0;
-    }).catch(e => {
-        alert("المتصفح منع التشغيل! اضغط موافق ثم انقر على الصفحة.");
-    });
-});
+// إضافة مؤثرات صوتية (بعد تفاعل المستخدم)
+document.body.onclick = function() {
+    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
+    audio.play();
+};
